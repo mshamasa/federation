@@ -1,0 +1,14 @@
+{
+  "include": ["./**/*"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "error",
+    "types": ["node"],
+    "noImplicitAny": false,
+    "outDir": "build"
+  }
+}
