@@ -17,4 +17,5 @@ const schema = buildSubgraphSchema([
 
 export { typeDefs, resolvers, schema };
 
-export default schema;
+// export default schema;
+export default typeDefs;

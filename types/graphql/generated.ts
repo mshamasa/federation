@@ -14,9 +14,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?: NonNullable<T[P]>;
-};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -24,9 +21,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Date custom scalar type */
+  _FieldSet: any;
   Date: any;
-  _Any: any;
 };
 
 export type Query = {
@@ -170,38 +166,23 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   User: ResolverTypeWrapper<User>;
-  _Any: ResolverTypeWrapper<Scalars['_Any']>;
-  _Entity: ResolversTypes['User'];
-  _Service: ResolverTypeWrapper<_Service>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
-  Int: Scalars['Int'];
   Query: {};
-  String: Scalars['String'];
+  Int: Scalars['Int'];
   User: User;
-  _Any: Scalars['_Any'];
-  _Entity: ResolversParentTypes['User'];
-  _Service: _Service;
+  Boolean: Scalars['Boolean'];
+  String: Scalars['String'];
 }>;
-
-export type ExtendsDirectiveArgs = {};
-
-export type ExtendsDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = any,
-  Args = ExtendsDirectiveArgs
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -218,13 +199,6 @@ export type QueryResolvers<
     ContextType,
     Partial<QueryUserArgs>
   >;
-  _entities?: Resolver<
-    Array<Maybe<ResolversTypes['_Entity']>>,
-    ParentType,
-    ContextType,
-    RequireFields<Query_EntitiesArgs, 'representations'>
-  >;
-  _service?: Resolver<ResolversTypes['_Service'], ParentType, ContextType>;
 }>;
 
 export type UserResolvers<
@@ -240,35 +214,8 @@ export type UserResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface _AnyScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['_Any'], any> {
-  name: '_Any';
-}
-
-export type _EntityResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['_Entity'] = ResolversParentTypes['_Entity']
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
-}>;
-
-export type _ServiceResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['_Service'] = ResolversParentTypes['_Service']
-> = ResolversObject<{
-  sdl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type Resolvers<ContextType = any> = ResolversObject<{
   Date?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-  _Any?: GraphQLScalarType;
-  _Entity?: _EntityResolvers<ContextType>;
-  _Service?: _ServiceResolvers<ContextType>;
-}>;
-
-export type DirectiveResolvers<ContextType = any> = ResolversObject<{
-  extends?: ExtendsDirectiveResolver<any, any, ContextType>;
 }>;

@@ -10,5 +10,6 @@ generates:
     config:
       useTypeImports: true
       useIndexSignature: true
+      federation: true
 require:
   - 'ts-node/register/transpile-only'
